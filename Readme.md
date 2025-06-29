@@ -18,3 +18,36 @@ Spring Boot Extension Pack
 Docker (от Microsoft)
 PostgreSQL (от Microsoft)
 ```
+
+## Запуск проекта:
+1. В корне проекта инициализировать Maven-проект:
+```
+mvn install
+```
+2. После установки RabbitMQ необходимо найти в приложениях и открыть RabbitMQ Command Prompt.
+3. В командной строке RabbitMQ выполнить команду:
+```
+rabbitmq-plugins enable rabbitmq_management
+```
+4. После активации плагинов перейти по адресу localhost:15672. Логин и пароль - guest.
+5. Запустить приложение командой:
+```
+mvn spring-boot:run
+```
+
+## Проверка работоспособности приложения:
+1. В другом терминале отправьте тестовый запрос:
+```
+Invoke-WebRequest -Uri "http://localhost:8080/api/notifications" ` -Method POST ` -Headers @{"Content-Type"="application/json"} ` -Body '{"componentId":"server-1","description":"High CPU","severity":"CRITICAL"}'
+```
+В результате должен вернуться JSON с сохранённым уведомлением. Код ответа - 200.
+2. Проверка базы данных:
+```
+psql -U postgres -d monitoring -c "SELECT * FROM notifications;"
+```
+3. Тестирование отправки email. Установите тестовый сервер (если используете не 1025 порт, то его номер надо поменять в application.properties):
+```
+python -m smtpd -n -c DebuggingServer localhost:1025
+```
+4. В другом терминале отправить превышающее пороговое значение количество уведомлений определённого уровня важности. Для WWARNING это количество равно 10, для CRITICAL - 5.
+5. По адресу сервера RabbitMQ (localhost:15672) проверить, что в queues появилась очередь сообщений (email.queue).
