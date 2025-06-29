@@ -41,10 +41,12 @@ mvn spring-boot:run
 Invoke-WebRequest -Uri "http://localhost:8080/api/notifications" ` -Method POST ` -Headers @{"Content-Type"="application/json"} ` -Body '{"componentId":"server-1","description":"High CPU","severity":"CRITICAL"}'
 ```
 В результате должен вернуться JSON с сохранённым уведомлением. Код ответа - 200.
+
 2. Проверка базы данных:
 ```
 psql -U postgres -d monitoring -c "SELECT * FROM notifications;"
 ```
+
 3. Тестирование отправки email. Установите тестовый сервер (если используете не 1025 порт, то его номер надо поменять в application.properties):
 ```
 python -m smtpd -n -c DebuggingServer localhost:1025
