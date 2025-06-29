@@ -1,0 +1,11 @@
+com\monitoring\config\RabbitMQConfig.class
+com\monitoring\controller\SettingsController.class
+com\monitoring\repository\NotificationRepository.class
+com\monitoring\service\EmailService.class
+com\monitoring\App.class
+com\monitoring\service\NotificationService.class
+com\monitoring\controller\NotificationController.class
+com\monitoring\model\Notification$SeverityLevel.class
+com\monitoring\model\Notification.class
+com\monitoring\repository\SystemSettingsRepository.class
+com\monitoring\model\SystemSettings.class
