@@ -47,9 +47,6 @@ Invoke-WebRequest -Uri "http://localhost:8080/api/notifications" ` -Method POST 
 psql -U postgres -d monitoring -c "SELECT * FROM notifications;"
 ```
 
-3. Тестирование отправки email. Установите тестовый сервер (если используете не 1025 порт, то его номер надо поменять в application.properties):
-```
-python -m smtpd -n -c DebuggingServer localhost:1025
-```
+3. Тестирование отправки email. Приходят на адрес электронной почты, установленный в настройках (application.properties):
 4. В другом терминале отправить превышающее пороговое значение количество уведомлений определённого уровня важности. Для WARNING это количество равно 10, для CRITICAL - 5.
 5. По адресу сервера RabbitMQ (localhost:15672) проверить, что в queues появилась очередь сообщений (email.queue).
